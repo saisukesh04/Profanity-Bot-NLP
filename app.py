@@ -4,7 +4,7 @@ from string import punctuation
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-import re  # regular expression
+import re
 from os.path import dirname, join, realpath
 import joblib
 import uvicorn
@@ -25,32 +25,24 @@ with open(
 ## The sentence needs to be cleaned before it is passed to the model.
 
 def text_cleaning(text):
-    # Clean the text, with the option to remove stop_words and to lemmatize word
-    # Clean the text
-    text = re.sub(r'@[A-Za-z0-9]+','',text) # Removing @mentions
-    text = re.sub(r'#','',text) # Removing the '#' symbol
-    text = re.sub(r'RT[\s]+','',text) # Removing RT
-    text = re.sub(r'https?:\/\/\S+','',text) # Removing hyperlinks
-    text = re.sub(r'[^a-zA-Z ]',' ', text) # Removing all the punctuations and numbers
+    text = re.sub(r'@[A-Za-z0-9]+','',text)
+    text = re.sub(r'#','',text)
+    text = re.sub(r'RT[\s]+','',text)
+    text = re.sub(r'https?:\/\/\S+','',text)
+    text = re.sub(r'[^a-zA-Z ]',' ', text)
     text = text.lower()
-        
-    # Remove punctuation from text
     text = ''.join([c for c in text if c not in punctuation])
     
-    # Optionally, remove stop words
     stop_words = stopwords.words("english")
     text = text.split()
     text = [w for w in text if not w in stop_words]
     text = " ".join(text)
-    
-    # Optionally, shorten words to their stems
     
     text = text.split()
     lemmatizer = WordNetLemmatizer() 
     lemmatized_words = [lemmatizer.lemmatize(word) for word in text]
     text = " ".join(lemmatized_words)
     
-    # Return a list of words
     return(text)
 
 @app.get("/predict-review")

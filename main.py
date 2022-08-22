@@ -1,26 +1,23 @@
 # import important modules
 import numpy as np
 import pandas as pd
-# sklearn modules
+
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
-from sklearn.naive_bayes import MultinomialNB # classifier 
-from sklearn.metrics import (
-    accuracy_score,
-    classification_report,
-    plot_confusion_matrix,
-)
-import joblib 
+from sklearn.metrics import accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
-# text preprocessing modules
-from string import punctuation 
-# text preprocessing modules
-from nltk.tokenize import word_tokenize
 from sklearn.linear_model import LogisticRegression
-import nltk
+
+from string import punctuation 
+
+from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer 
-import re #regular expression
+
+import re
+import pickle
+import warnings
+warnings.filterwarnings("ignore")
 
 # Download dependency - One time run
 '''for dependency in (
@@ -34,11 +31,6 @@ import re #regular expression
     "omw-1.4"
 ):
     nltk.download(dependency)'''
-    
-import warnings
-warnings.filterwarnings("ignore")
-
-import pickle
 
 # seeding
 np.random.seed(123)
